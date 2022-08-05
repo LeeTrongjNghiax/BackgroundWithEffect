@@ -38,12 +38,12 @@ class RadialGradient {
     }
     return g;
   }
-  update() {
+  update(timePassed = 1) {
     this.create();
-    this.postition1.x += this.velocity.x;
-    this.postition2.x += this.velocity.x;
-    this.postition1.y += this.velocity.y;
-    this.postition2.y += this.velocity.y;
+    this.postition1.x += this.velocity.x * timePassed;
+    this.postition2.x += this.velocity.x * timePassed;
+    this.postition1.y += this.velocity.y * timePassed;
+    this.postition2.y += this.velocity.y * timePassed;
   }
 }
 
@@ -92,7 +92,7 @@ class Circle {
   }
   update(timePassed = 1) {
     if (this.color instanceof RadialGradient) {
-      this.color.update();
+      this.color.update(timePassed);
       this.postition.x += this.color.velocity.x * timePassed;
       this.postition.y += this.color.velocity.y * timePassed;
     } else {
