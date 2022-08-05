@@ -1,0 +1,659 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <link rel="stylesheet" href="style.css">
+  <script src="JS/helperFunction.js"></script>
+</head>
+<body>
+  <div id="controller">
+    <p>FPS: <span id="fps"></span></p>
+    <ol type="1">
+      <li>Background Settings:
+        <br>
+        <label for="toggleBg">Turn background on/off</label>
+        <input type="button" id="toggleBg" value="off">
+        <ul id="backgroundSettings">
+          <li>
+            <label for="inpBackground">Import more background: </label>
+            <input type="text" id="inpBackground">
+            <button id="btnImportBackground">Import</button>
+          </li>
+          <li>
+            <label for="inpDelay">Delay time between backgrounds (s): </label>
+            <input type="number" id="inpDelay" value="5">
+          </li>
+          <li>
+            <label for="inpTime">Backgrounds transition times(s): </label>
+            <input type="number" id="inpTime" value="5">
+          </li>
+        </ul>
+      </li>
+
+      <li>Effect Settings:
+        <ul>
+          <li class="dropdown">
+            <button class="dropEffect">Effect: </button>
+            <div id="dropEffectValue">
+              <a href="#">None</a>
+              <a href="#">Bokeh</a>
+              <a href="#">Rain</a>
+              <a href="#">Snow</a>
+            </div>
+          </li>
+          <li id="bokehSetting">Bokeh Settings:
+            <ul>
+              <li>
+                <label for="inpBokehRadius">Radius: </label>
+                <ul>
+                  <li>
+                    <label for="inpBokehRadiusMin">Min: </label>
+                    <input type="number" id="inpBokehRadiusMin" value="1" maxlength="2" size="2">
+                  </li>
+                  <li>
+                    <label for="inpBokehRadiusMax">Max: </label>
+                    <input type="number" id="inpBokehRadiusMax" value="20" maxlength="2" size="2">
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <label for="inpBokehVX">Velocity X: </label>
+                <ul>
+                  <li>
+                    <label for="inpBokehVXMin">Min: </label>
+                    <input type="number" id="inpBokehVXMin" value="-0.3" maxlength="2" size="2">
+                  </li>
+                  <li>
+                    <label for="inpBokehVXMax">Max: </label>
+                    <input type="number" id="inpBokehVXMax" value="0.3" maxlength="2" size="2">
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <label for="inpBokehVY">Velocity Y: </label>
+                <ul>
+                  <li>
+                    <label for="inpBokehVYMin">Min: </label>
+                    <input type="number" id="inpBokehVYMin" value="-0.3" maxlength="2" size="2">
+                  </li>
+                  <li>
+                    <label for="inpBokehVYMax">Max: </label>
+                    <input type="number" id="inpBokehVYMax" value="0.3" maxlength="2" size="2">
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <label for="inpBokehGrowthRate">Growth rate: </label>
+                <ul>
+                  <li>
+                    <label for="inpBokehGrowthRateMin">Min: </label>
+                    <input type="number" id="inpBokehGrowthRateMin" value="0.1" maxlength="1" size="1">
+                  </li>
+                  <li>
+                    <label for="inpBokehGrowthRateMax">Max: </label>
+                    <input type="number" id="inpBokehGrowthRateMax" value="0.4" maxlength="1" size="1">
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <label for="inpBokehOpacity">Opacity: </label>
+                <ul>
+                  <li>
+                    <label for="inpBokehOpacityMin">Min: </label>
+                    <input type="number" id="inpBokehOpacityMin" value="0.01" step="0.01" min="0" max="1" maxlength="1" size="1">
+                  </li>
+                  <li>
+                    <label for="inpBokehOpacityMax">Max: </label>
+                    <input type="number" id="inpBokehOpacityMax" value="0.9" step="0.01" min="0" max="1" maxlength="1" size="1">
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <label for="inpBokehColor">Color: </label>
+                <input id="inpBokehColor" value="rgba(192, 225, 228)" pattern="^rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*(\d*(?:\.\d+)?)\)$">
+              </li>
+
+              <li>
+<<<<<<< HEAD
+                <label for="inpBokehSpawnRate">Spawn rate: </label>
+                <input type="number" id="inpBokehSpawnRate" value="10" maxlength="2" size="2">
+              </li>
+
+              <li>
+                <label for="inpMaxBokeh">Maximum on screen: </label>
+                <input type="number" id="inpMaxBokeh" value="50" min="0" max="1000" maxlength="2" size="2">
+=======
+                <label for="inpBokehSpawnRate">Bokehs spawn rate: </label>
+                <input type="number" id="inpBokehSpawnRate" value="1">
+              </li>
+
+              <li>
+                <label for="inpMaxBokeh">Maximum bokehs on screen: </label>
+                <input type="number" id="inpMaxBokeh" value="500">
+>>>>>>> f015a9f2bd964ff03eca868f5d3268681281c006
+              </li>
+
+              <li>
+                <button id="clearBokehs">Clear all bokehs</button>
+              </li>
+            </ul>
+          </li>
+          <li id="rainSetting">Rain Settings:
+            <ul>
+              <li>
+                <label for="inpLength">Rains length: </label>
+                <ul>
+                  <li>
+                    <label for="inpLengthMin">Min: </label>
+                    <input type="number" id="inpLengthMin" value="10" maxlength="2" size="2">
+                  </li>
+                  <li>
+                    <label for="inpLengthMax">Max: </label>
+                    <input type="number" id="inpLengthMax" value="80" maxlength="2" size="2">
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <label for="inpSpeed">Rains speed: </label>
+                <ul>
+                  <li>
+                    <label for="inpSpeedMin">Min: </label>
+                    <input type="number" id="inpSpeedMin" value="5000" maxlength="5">
+                  </li>
+                  <li>
+                    <label for="inpSpeedMax">Max: </label>
+                    <input type="number" id="inpSpeedMax" value="10000" maxlength="5">
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <label for="inpAngle">Rains angle: </label>
+                <ul>
+                  <li>
+                    <label for="inpAngleMin">Min: </label>
+                    <input type="number" id="inpAngleMin" value="-60" min="-360" max="360" maxlength="4" size="4">
+                  </li>
+                  <li>
+                    <label for="inpAngle">Max: </label>
+                    <input type="number" id="inpAngleMax" value="-60" min="-360" max="360" maxlength="4" size="4">
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <label for="inpOpacity">Rains opacity: </label>
+                <ul>
+                  <li>
+                    <label for="inpOpacityMin">Min: </label>
+                    <input type="number" id="inpOpacityMin" value="0.01" step="0.01" min="0" max="1" maxlength="4">
+                  </li>
+                  <li>
+                    <label for="inpOpacityMax">Max: </label>
+                    <input type="number" id="inpOpacityMax" value="0.9" step="0.01" min="0" max="1" maxlength="4">
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <label for="inpColor">Rains color: </label>
+                <input id="inpColor" value="rgba(192, 225, 228)" pattern="^rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*(\d*(?:\.\d+)?)\)$">
+              </li>
+
+              <li>
+                <label for="inpSpawnRate">Rains spawn rate: </label>
+                <input type="number" id="inpSpawnRate" value="1" maxlength="3" size="3">
+              </li>
+
+              <li>
+                <button id="clearRains">Clear all rains drop</button>
+              </li>
+            </ul>
+          </li>
+          <li id="snowSetting">Snow Settings:
+            <ul>
+              <li>
+                <label for="inpSnowRadius">Snows radius: </label>
+                <ul>
+                  <li>
+                    <label for="inpSnowRadiusMin">Min: </label>
+                    <input type="number" id="inpSnowRadiusMin" value="1">
+                  </li>
+                  <li>
+                    <label for="inpSnowRadiusMax">Max: </label>
+                    <input type="number" id="inpSnowRadiusMax" value="3">
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <label for="inpSnowVX">Snows velocity X: </label>
+                <ul>
+                  <li>
+                    <label for="inpSnowVXMin">Min: </label>
+                    <input type="number" id="inpSnowVXMin" value="-100">
+                  </li>
+                  <li>
+                    <label for="inpSnowVXMax">Max: </label>
+                    <input type="number" id="inpSnowVXMax" value="100">
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <label for="inpSnowVY">Snows velocity Y: </label>
+                <ul>
+                  <li>
+                    <label for="inpSnowVYMin">Min: </label>
+                    <input type="number" id="inpSnowVYMin" value="200">
+                  </li>
+                  <li>
+                    <label for="inpSnowVYMax">Max: </label>
+                    <input type="number" id="inpSnowVYMax" value="300">
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <label for="inpSnowOpacity">Snows opacity: </label>
+                <ul>
+                  <li>
+                    <label for="inpSnowOpacityMin">Min: </label>
+                    <input type="number" id="inpSnowOpacityMin" value="0.01" step="0.01" min="0" max="1">
+                  </li>
+                  <li>
+                    <label for="inpSnowOpacityMax">Max: </label>
+                    <input type="number" id="inpSnowOpacityMax" value="0.9" step="0.01" min="0" max="1">
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <label for="inpSnowColor">Snows color: </label>
+                <input id="inpSnowColor" value="rgba(192, 225, 228)" pattern="^rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*(\d*(?:\.\d+)?)\)$">
+              </li>
+
+              <li>
+                <label for="inpSnowSpawnRate">Snows spawn rate: </label>
+                <input type="number" id="inpSnowSpawnRate" value="10">
+              </li>
+
+              <li>
+                <label for="inpUpdateAllSnowP">Update all snow position: </label>
+                <ul>
+                  <li>
+                    <label for="inpUpdateAllSnowPX">X: </label>
+                    <input type="number" id="inpUpdateAllSnowPX" value="100">
+                  </li>
+                  <li>
+                    <label for="inpUpdateAllSnowPY">Y: </label>
+                    <input type="number" id="inpUpdateAllSnowPY" value="100">
+                  </li>
+                  <li>
+                    <button id="btnUpdateSnowP">Update</button>
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <button id="clearSnows">Clear all snows</button>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+
+  <canvas></canvas>
+</body>
+</html>
+
+<script src="JS/init.js"></script>
+<script src="JS/background/value.js"></script>
+<script src="JS/bokeh/value.js"></script>
+<script src="JS/rain/value.js"></script>
+<script src="JS/snow/value.js"></script>
+<script src="JS/eventListener.js"></script>
+<script src="script.js"></script>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <link rel="stylesheet" href="style.css">
+  <script src="JS/helperFunction.js"></script>
+</head>
+<body>
+  <div id="controller">
+    <p>FPS: <span id="fps"></span></p>
+    <ol type="1">
+      <li>Background Settings:
+        <br>
+        <label for="toggleBg">Turn background on/off</label>
+        <input type="button" id="toggleBg" value="off">
+        <ul id="backgroundSettings">
+          <li>
+            <label for="inpBackground">Import more background: </label>
+            <input type="text" id="inpBackground">
+            <button id="btnImportBackground">Import</button>
+          </li>
+          <li>
+            <label for="inpDelay">Delay time between backgrounds (s): </label>
+            <input type="number" id="inpDelay" value="5">
+          </li>
+          <li>
+            <label for="inpTime">Backgrounds transition times(s): </label>
+            <input type="number" id="inpTime" value="5">
+          </li>
+        </ul>
+      </li>
+
+      <li>Effect Settings:
+        <ul>
+          <li>
+            <label for="inpEffect">Effect: </label>
+            <select id="inpEffect">
+              <option value="none">None</option>
+              <option value="bokeh">Bokeh</option>
+              <option value="rain">Rain</option>
+              <option value="snow">Snow</option>
+            </select>
+          </li>
+          <li id="bokehSetting">Bokeh Settings:
+            <ul>
+              <li>
+                <label for="inpBokehRadius">Radius: </label>
+                <ul>
+                  <li>
+                    <label for="inpBokehRadiusMin">Min: </label>
+                    <input type="number" id="inpBokehRadiusMin" value="1" maxlength="2" size="2">
+                  </li>
+                  <li>
+                    <label for="inpBokehRadiusMax">Max: </label>
+                    <input type="number" id="inpBokehRadiusMax" value="20" maxlength="2" size="2">
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <label for="inpBokehVX">Velocity X: </label>
+                <ul>
+                  <li>
+                    <label for="inpBokehVXMin">Min: </label>
+                    <input type="number" id="inpBokehVXMin" value="-0.3" maxlength="2" size="2">
+                  </li>
+                  <li>
+                    <label for="inpBokehVXMax">Max: </label>
+                    <input type="number" id="inpBokehVXMax" value="0.3" maxlength="2" size="2">
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <label for="inpBokehVY">Velocity Y: </label>
+                <ul>
+                  <li>
+                    <label for="inpBokehVYMin">Min: </label>
+                    <input type="number" id="inpBokehVYMin" value="-0.3" maxlength="2" size="2">
+                  </li>
+                  <li>
+                    <label for="inpBokehVYMax">Max: </label>
+                    <input type="number" id="inpBokehVYMax" value="0.3" maxlength="2" size="2">
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <label for="inpBokehGrowthRate">Growth rate: </label>
+                <ul>
+                  <li>
+                    <label for="inpBokehGrowthRateMin">Min: </label>
+                    <input type="number" id="inpBokehGrowthRateMin" value="0.1" maxlength="1" size="1">
+                  </li>
+                  <li>
+                    <label for="inpBokehGrowthRateMax">Max: </label>
+                    <input type="number" id="inpBokehGrowthRateMax" value="0.4" maxlength="1" size="1">
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <label for="inpBokehOpacity">Opacity: </label>
+                <ul>
+                  <li>
+                    <label for="inpBokehOpacityMin">Min: </label>
+                    <input type="number" id="inpBokehOpacityMin" value="0.01" step="0.01" min="0" max="1" maxlength="1" size="1">
+                  </li>
+                  <li>
+                    <label for="inpBokehOpacityMax">Max: </label>
+                    <input type="number" id="inpBokehOpacityMax" value="0.9" step="0.01" min="0" max="1" maxlength="1" size="1">
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <label for="inpBokehColor">Color: </label>
+                <input id="inpBokehColor" value="rgba(192, 225, 228)" pattern="^rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*(\d*(?:\.\d+)?)\)$">
+              </li>
+
+              <li>
+<<<<<<< HEAD
+                <label for="inpBokehSpawnRate">Spawn rate: </label>
+                <input type="number" id="inpBokehSpawnRate" value="10" maxlength="2" size="2">
+              </li>
+
+              <li>
+                <label for="inpMaxBokeh">Maximum on screen: </label>
+                <input type="number" id="inpMaxBokeh" value="50" min="0" max="1000" maxlength="2" size="2">
+=======
+                <label for="inpBokehSpawnRate">Bokehs spawn rate: </label>
+                <input type="number" id="inpBokehSpawnRate" value="1">
+              </li>
+
+              <li>
+                <label for="inpMaxBokeh">Maximum bokehs on screen: </label>
+                <input type="number" id="inpMaxBokeh" value="500">
+>>>>>>> f015a9f2bd964ff03eca868f5d3268681281c006
+              </li>
+
+              <li>
+                <button id="clearBokehs">Clear all bokehs</button>
+              </li>
+            </ul>
+          </li>
+          <li id="rainSetting">Rain Settings:
+            <ul>
+              <li>
+                <label for="inpLength">Rains length: </label>
+                <ul>
+                  <li>
+                    <label for="inpLengthMin">Min: </label>
+                    <input type="number" id="inpLengthMin" value="10" maxlength="2" size="2">
+                  </li>
+                  <li>
+                    <label for="inpLengthMax">Max: </label>
+                    <input type="number" id="inpLengthMax" value="80" maxlength="2" size="2">
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <label for="inpSpeed">Rains speed: </label>
+                <ul>
+                  <li>
+                    <label for="inpSpeedMin">Min: </label>
+                    <input type="number" id="inpSpeedMin" value="5000" maxlength="5">
+                  </li>
+                  <li>
+                    <label for="inpSpeedMax">Max: </label>
+                    <input type="number" id="inpSpeedMax" value="10000" maxlength="5">
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <label for="inpAngle">Rains angle: </label>
+                <ul>
+                  <li>
+                    <label for="inpAngleMin">Min: </label>
+                    <input type="number" id="inpAngleMin" value="-60" min="-360" max="360" maxlength="4" size="4">
+                  </li>
+                  <li>
+                    <label for="inpAngle">Max: </label>
+                    <input type="number" id="inpAngleMax" value="-60" min="-360" max="360" maxlength="4" size="4">
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <label for="inpOpacity">Rains opacity: </label>
+                <ul>
+                  <li>
+                    <label for="inpOpacityMin">Min: </label>
+                    <input type="number" id="inpOpacityMin" value="0.01" step="0.01" min="0" max="1" maxlength="4">
+                  </li>
+                  <li>
+                    <label for="inpOpacityMax">Max: </label>
+                    <input type="number" id="inpOpacityMax" value="0.9" step="0.01" min="0" max="1" maxlength="4">
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <label for="inpColor">Rains color: </label>
+                <input id="inpColor" value="rgba(192, 225, 228)" pattern="^rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*(\d*(?:\.\d+)?)\)$">
+              </li>
+
+              <li>
+                <label for="inpSpawnRate">Rains spawn rate: </label>
+                <input type="number" id="inpSpawnRate" value="1" maxlength="3" size="3">
+              </li>
+
+              <li>
+                <button id="clearRains">Clear all rains drop</button>
+              </li>
+            </ul>
+          </li>
+          <li id="snowSetting">Snow Settings:
+            <ul>
+              <li>
+                <label for="inpSnowRadius">Snows radius: </label>
+                <ul>
+                  <li>
+                    <label for="inpSnowRadiusMin">Min: </label>
+                    <input type="number" id="inpSnowRadiusMin" value="1">
+                  </li>
+                  <li>
+                    <label for="inpSnowRadiusMax">Max: </label>
+                    <input type="number" id="inpSnowRadiusMax" value="3">
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <label for="inpSnowVX">Snows velocity X: </label>
+                <ul>
+                  <li>
+                    <label for="inpSnowVXMin">Min: </label>
+                    <input type="number" id="inpSnowVXMin" value="-100">
+                  </li>
+                  <li>
+                    <label for="inpSnowVXMax">Max: </label>
+                    <input type="number" id="inpSnowVXMax" value="100">
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <label for="inpSnowVY">Snows velocity Y: </label>
+                <ul>
+                  <li>
+                    <label for="inpSnowVYMin">Min: </label>
+                    <input type="number" id="inpSnowVYMin" value="200">
+                  </li>
+                  <li>
+                    <label for="inpSnowVYMax">Max: </label>
+                    <input type="number" id="inpSnowVYMax" value="300">
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <label for="inpSnowOpacity">Snows opacity: </label>
+                <ul>
+                  <li>
+                    <label for="inpSnowOpacityMin">Min: </label>
+                    <input type="number" id="inpSnowOpacityMin" value="0.01" step="0.01" min="0" max="1">
+                  </li>
+                  <li>
+                    <label for="inpSnowOpacityMax">Max: </label>
+                    <input type="number" id="inpSnowOpacityMax" value="0.9" step="0.01" min="0" max="1">
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <label for="inpSnowColor">Snows color: </label>
+                <input id="inpSnowColor" value="rgba(192, 225, 228)" pattern="^rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*(\d*(?:\.\d+)?)\)$">
+              </li>
+
+              <li>
+                <label for="inpSnowSpawnRate">Snows spawn rate: </label>
+                <input type="number" id="inpSnowSpawnRate" value="10">
+              </li>
+
+              <li>
+                <label for="inpUpdateAllSnowP">Update all snow position: </label>
+                <ul>
+                  <li>
+                    <label for="inpUpdateAllSnowPX">X: </label>
+                    <input type="number" id="inpUpdateAllSnowPX" value="100">
+                  </li>
+                  <li>
+                    <label for="inpUpdateAllSnowPY">Y: </label>
+                    <input type="number" id="inpUpdateAllSnowPY" value="100">
+                  </li>
+                  <li>
+                    <button id="btnUpdateSnowP">Update</button>
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <button id="clearSnows">Clear all snows</button>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+
+  <canvas></canvas>
+</body>
+</html>
+
+<script src="JS/init.js"></script>
+<script src="JS/background/value.js"></script>
+<script src="JS/bokeh/value.js"></script>
+<script src="JS/rain/value.js"></script>
+<script src="JS/snow/value.js"></script>
+<script src="JS/eventListener.js"></script>
+<script src="script.js"></script>
+>>>>>>> 40e97d52edd14ff8397654d51b46404f508836c3

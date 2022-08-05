@@ -1,0 +1,98 @@
+:root {
+  --background-transition-time: 2s;
+
+  --controller-size: 25%;
+  --controller-background-color: rgba(60, 60, 60, 0.1);
+  --controller-transition-time: 0.5s;
+  --controller-border-thickness: 1px;
+  --controller-border-color: #FFFFFF;
+  --controller-font-size: 100%;
+  --controller-font-color: #FFFFFF;
+
+  --controller-input-background-color: rgba(0, 0, 0, 0.1);
+  --controller-input-font-color: #FFFFFF;
+  --controller-input-font-size: 100%;
+  --controller-input-padding: 1%;
+  --controller-input-width: 25%;
+
+  --controller-select-background-color: rgba(0, 0, 0, 0.1);
+  --controller-select-font-color: #FFFFFF;
+  --controller-select-font-size: 100%;
+  --controller-select-padding: 1%;
+}
+
+* {
+  font-family: monospace;
+}
+
+body {
+  overflow: hidden;
+  position: relative;
+  padding: 0;
+  margin: 0;
+  background-color: black;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  transition: background-image var(--background-transition-time);
+}
+
+#controller {
+  overflow-y: scroll;
+  position: absolute;
+  height: 100%;
+  box-sizing: content-box;
+  left: calc( (var(--controller-size) - 0.1%) * -1 );
+  width: var(--controller-size);
+  /* border-right: var(--controller-border-thickness) solid var(--controller-border-color); */
+  background-color: var(--controller-background-color);
+  transition: left var(--controller-transition-time);
+  font-size: var(--controller-font-size);
+  color: var(--controller-font-color);
+}
+
+#container::-webkit-scrollbar {
+  width: 0 !important
+}
+
+#controller:hover {
+  left: 0;
+}
+
+input {
+  background-color: var(--controller-input-background-color);
+  color: var(--controller-input-font-color);
+  font-size: var(--controller-input-font-size);
+  padding: var(--controller-input-padding);
+  width: var(--controller-input-width);
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+#dropEffectValue {
+  display: none;
+  position: absolute;
+  background-color: gray;
+  z-index: 1;
+}
+
+#dropEffectValue a {
+  color: white;
+  padding: 5px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown:hover #dropEffectValue {
+  display: block;
+}
+
+#backgroundSettings, #bokehSetting, #rainSetting, #snowSetting {
+  display: none;
+}
+
+ul > li {
+  margin-left: -8%;
+}
