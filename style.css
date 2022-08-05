@@ -78,13 +78,6 @@ input {
   z-index: 1;
 }
 
-#dropEffectValue a {
-  color: white;
-  padding: 5px;
-  text-decoration: none;
-  display: block;
-}
-
 .dropdown:hover #dropEffectValue {
   display: block;
 }

@@ -39,10 +39,12 @@
           <li class="dropdown">
             <button class="dropEffect">Effect: </button>
             <div id="dropEffectValue">
-              <a href="#">None</a>
-              <a href="#">Bokeh</a>
-              <a href="#">Rain</a>
-              <a href="#">Snow</a>
+              <input type="checkbox" name="effect" value="bokeh">
+              <label for="">Bokeh</label>
+              <input type="checkbox" name="effect" value="rain">
+              <label for="">Rain</label>
+              <input type="checkbox" name="effect" value="snow">
+              <label for="">Snow</label>
             </div>
           </li>
           <li id="bokehSetting">Bokeh Settings:
@@ -56,7 +58,7 @@
                   </li>
                   <li>
                     <label for="inpBokehRadiusMax">Max: </label>
-                    <input type="number" id="inpBokehRadiusMax" value="20" maxlength="2" size="2">
+                    <input type="number" id="inpBokehRadiusMax" value="100" maxlength="3" size="3">
                   </li>
                 </ul>
               </li>
@@ -66,11 +68,11 @@
                 <ul>
                   <li>
                     <label for="inpBokehVXMin">Min: </label>
-                    <input type="number" id="inpBokehVXMin" value="-0.3" maxlength="2" size="2">
+                    <input type="number" id="inpBokehVXMin" value="-1" maxlength="2" size="2">
                   </li>
                   <li>
                     <label for="inpBokehVXMax">Max: </label>
-                    <input type="number" id="inpBokehVXMax" value="0.3" maxlength="2" size="2">
+                    <input type="number" id="inpBokehVXMax" value="1" maxlength="2" size="2">
                   </li>
                 </ul>
               </li>
@@ -80,11 +82,11 @@
                 <ul>
                   <li>
                     <label for="inpBokehVYMin">Min: </label>
-                    <input type="number" id="inpBokehVYMin" value="-0.3" maxlength="2" size="2">
+                    <input type="number" id="inpBokehVYMin" value="-1" maxlength="2" size="2">
                   </li>
                   <li>
                     <label for="inpBokehVYMax">Max: </label>
-                    <input type="number" id="inpBokehVYMax" value="0.3" maxlength="2" size="2">
+                    <input type="number" id="inpBokehVYMax" value="1" maxlength="2" size="2">
                   </li>
                 </ul>
               </li>
@@ -123,20 +125,13 @@
               </li>
 
               <li>
-                <label for="inpBokehSpawnRate">Spawn rate: </label>
-                <input type="number" id="inpBokehSpawnRate" value="10" maxlength="2" size="2">
+                <label for="inpMaxBokeh">Maximum on screen: </label>
+                <input type="number" id="inpMaxBokeh" value="500" min="0" max="1000" maxlength="2" size="2">
               </li>
 
               <li>
-                <label for="inpMaxBokeh">Maximum on screen: </label>
-                <input type="number" id="inpMaxBokeh" value="50" min="0" max="1000" maxlength="2" size="2">
                 <label for="inpBokehSpawnRate">Bokehs spawn rate: </label>
                 <input type="number" id="inpBokehSpawnRate" value="1">
-              </li>
-
-              <li>
-                <label for="inpMaxBokeh">Maximum bokehs on screen: </label>
-                <input type="number" id="inpMaxBokeh" value="500">
               </li>
 
               <li>
@@ -165,11 +160,11 @@
                 <ul>
                   <li>
                     <label for="inpSpeedMin">Min: </label>
-                    <input type="number" id="inpSpeedMin" value="5000" maxlength="5">
+                    <input type="number" id="inpSpeedMin" value="500" maxlength="5">
                   </li>
                   <li>
                     <label for="inpSpeedMax">Max: </label>
-                    <input type="number" id="inpSpeedMax" value="10000" maxlength="5">
+                    <input type="number" id="inpSpeedMax" value="1000" maxlength="5">
                   </li>
                 </ul>
               </li>
@@ -238,11 +233,11 @@
                 <ul>
                   <li>
                     <label for="inpSnowVXMin">Min: </label>
-                    <input type="number" id="inpSnowVXMin" value="-100">
+                    <input type="number" id="inpSnowVXMin" value="-10">
                   </li>
                   <li>
                     <label for="inpSnowVXMax">Max: </label>
-                    <input type="number" id="inpSnowVXMax" value="100">
+                    <input type="number" id="inpSnowVXMax" value="10">
                   </li>
                 </ul>
               </li>
@@ -282,7 +277,7 @@
 
               <li>
                 <label for="inpSnowSpawnRate">Snows spawn rate: </label>
-                <input type="number" id="inpSnowSpawnRate" value="10">
+                <input type="number" id="inpSnowSpawnRate" value="1">
               </li>
 
               <li>

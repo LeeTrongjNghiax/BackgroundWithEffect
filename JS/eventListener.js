@@ -24,51 +24,37 @@ document.querySelector("#inpTime").addEventListener("change", () => {
   document.querySelector("body").style.transition = `background-image ${document.querySelector("#inpTime").value}s;`;
 })
 
-document.querySelector("#dropEffectValue > a:nth-child(1)").addEventListener("click", () => {
-  clearTimeout(sbTimeout);
-  clearTimeout(srTimeout);
-  clearTimeout(snTimeout);
-  bokehs = [];
-  rains = [];
-  snows = [];
-  document.querySelector("#bokehSetting").style.display = "none";
-  document.querySelector("#rainSetting").style.display = "none";
-  document.querySelector("#snowSetting").style.display = "none";
+document.querySelectorAll("input[name=effect]")[0].addEventListener("change", () => {
+  if (document.querySelectorAll("input[name=effect]")[0].checked) {
+    spawnBoKeh();
+    document.querySelector("#bokehSetting").style.display = "block";
+  } else {
+    bokehs = [];
+    clearTimeout(sbTimeout);
+    document.querySelector("#bokehSetting").style.display = "none";
+  }
 })
 
-document.querySelector("#dropEffectValue > a:nth-child(2)").addEventListener("click", () => {
-  spawnBoKeh();
-  document.querySelector("#bokehSetting").style.display = "block";
-  clearTimeout(srTimeout);
-  clearTimeout(snTimeout);
-  rains = [];
-  snows = [];
-  document.querySelector("#rainSetting").style.display = "none";
-  document.querySelector("#snowSetting").style.display = "none";
+document.querySelectorAll("input[name=effect]")[1].addEventListener("change", () => {
+  if (document.querySelectorAll("input[name=effect]")[1].checked) {
+    spawnRain();
+    document.querySelector("#rainSetting").style.display = "block";
+  } else {
+    rains = [];
+    clearTimeout(srTimeout);
+    document.querySelector("#rainSetting").style.display = "none";
+  }
 })
 
-document.querySelector("#dropEffectValue > a:nth-child(3)").addEventListener("click", () => {
-  spawnRain();
-  document.querySelector("#rainSetting").style.display = "block";
-
-  clearTimeout(sbTimeout);
-  clearTimeout(snTimeout);
-  bokehs = [];
-  snows = [];
-  document.querySelector("#bokehSetting").style.display = "none";
-  document.querySelector("#snowSetting").style.display = "none";
-})
-
-document.querySelector("#dropEffectValue > a:nth-child(4)").addEventListener("click", () => {
-  spawnSnow();
-  document.querySelector("#snowSetting").style.display = "block";
-
-  clearTimeout(sbTimeout);
-  clearTimeout(srTimeout);
-  bokehs = [];
-  rains = [];
-  document.querySelector("#bokehSetting").style.display = "none";
-  document.querySelector("#rainSetting").style.display = "none";
+document.querySelectorAll("input[name=effect]")[2].addEventListener("change", () => {
+  if (document.querySelectorAll("input[name=effect]")[2].checked) {
+    spawnSnow();
+    document.querySelector("#snowSetting").style.display = "block";
+  } else {
+    snows = [];
+    clearTimeout(snTimeout);
+    document.querySelector("#snowSetting").style.display = "none";
+  }
 })
 
 document.querySelector("#clearBokehs").addEventListener("click", () => bokehs = []);
