@@ -24,6 +24,16 @@ document.querySelector("#inpTime").addEventListener("change", () => {
   document.querySelector("body").style.transition = `background-image ${document.querySelector("#inpTime").value}s;`;
 })
 
+document.querySelector("#inpAnimation").addEventListener("click", () => {
+  if (document.querySelector("#inpAnimation").value == "stop") {
+    document.querySelector("#inpAnimation").value = "start";
+    cancelAnimationFrame(rafid);
+  } else {
+    document.querySelector("#inpAnimation").value = "stop";
+    loop();
+  }
+})
+
 document.querySelectorAll("input[name=effect]")[0].addEventListener("change", () => {
   if (document.querySelectorAll("input[name=effect]")[0].checked) {
     spawnBoKeh();

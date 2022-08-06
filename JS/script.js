@@ -1,7 +1,8 @@
 let t = Date.now();
+let rafid;
 
 loop = () => {
-  requestAnimationFrame(loop);
+  rafid = requestAnimationFrame(loop);
 
   c.width = innerWidth * 2;
   c.height = innerHeight;
