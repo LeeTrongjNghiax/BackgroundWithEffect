@@ -6,8 +6,112 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
 
-  <link rel="stylesheet" href="style.css">
-  <script src="JS/helperFunction.js"></script>
+  <style>
+
+    :root {
+      --background-transition-time: 2s;
+
+      --controller-size: 25%;
+      --controller-background-color: rgba(60, 60, 60, 0.1);
+      --controller-transition-time: 0.5s;
+      --controller-border-thickness: 1px;
+      --controller-border-color: #FFFFFF;
+      --controller-font-size: 100%;
+      --controller-font-color: #FFFFFF;
+
+      --controller-input-background-color: rgba(0, 0, 0, 0.1);
+      --controller-input-font-color: #FFFFFF;
+      --controller-input-font-size: 100%;
+      --controller-input-padding: 1%;
+      --controller-input-width: 25%;
+
+      --controller-select-background-color: rgba(0, 0, 0, 0.1);
+      --controller-select-font-color: #FFFFFF;
+      --controller-select-font-size: 100%;
+      --controller-select-padding: 1%;
+    }
+
+    * {
+      font-family: monospace;
+    }
+
+    body {
+      overflow: hidden;
+      position: relative;
+      padding: 0;
+      margin: 0;
+      background-color: black;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      transition: background-image var(--background-transition-time);
+    }
+
+    #controller {
+      overflow-y: scroll;
+      position: absolute;
+      height: 100%;
+      box-sizing: content-box;
+      left: calc( (var(--controller-size) - 0.1%) * -1 );
+      width: var(--controller-size);
+      /* border-right: var(--controller-border-thickness) solid var(--controller-border-color); */
+      background-color: var(--controller-background-color);
+      transition: left var(--controller-transition-time);
+      font-size: var(--controller-font-size);
+      color: var(--controller-font-color);
+    }
+
+    #container::-webkit-scrollbar {
+      width: 0 !important
+    }
+
+    #controller:hover {
+      left: 0;
+    }
+
+    input {
+      background-color: var(--controller-input-background-color);
+      color: var(--controller-input-font-color);
+      font-size: var(--controller-input-font-size);
+      padding: var(--controller-input-padding);
+      width: var(--controller-input-width);
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    #dropEffectValue {
+      display: none;
+      position: absolute;
+      background-color: gray;
+      z-index: 1;
+    }
+
+    .dropdown:hover #dropEffectValue {
+      display: block;
+    }
+
+    #backgroundSettings, #bokehSetting, #rainSetting, #snowSetting {
+      display: none;
+    }
+
+    ul > li {
+      margin-left: -8%;
+    }
+
+  </style>
+  <script>
+
+    degrees_to_radians = degrees => degrees * (Math.PI/180);
+
+    randomRangeInt = (start, stop) =>
+      Math.round(Math.random() * (stop - start) + start);
+
+    randomRangeFloat = (start, stop) =>
+      Math.random() * (stop - start) + start;
+
+  </script>
 </head>
 <body>
   <div id="controller">
@@ -315,10 +419,669 @@
 </body>
 </html>
 
-<script src="JS/init.js"></script>
-<script src="JS/effectInit/background.js"></script>
-<script src="JS/effectInit/bokeh.js"></script>
-<script src="JS/effectInit/rain.js"></script>
-<script src="JS/effectInit/snow.js"></script>
-<script src="JS/eventListener.js"></script>
-<script src="JS/script.js"></script>
+<script>
+  const c = document.querySelector("canvas");
+  const ctx = c.getContext("2d");
+
+  let bgImages = [
+    'url("https://i.pinimg.com/originals/27/e7/5e/27e75ed5183f76133dfc78e49af68eb4.jpg")',
+    'url("https://wallpaper.dog/large/11026305.jpg")',
+    'url("https://www.discoverlosangeles.com/sites/default/files/images/2019-04/Ascot%20Hills%20Park%20sunset.jpg?width=2600&fit=bound&quality=72&auto=webp")',
+    'url("https://wallpaperaccess.com/full/2334798.jpg")',
+    'url("https://wallpaperaccess.com/full/1217264.jpg")',
+    'url("https://wallpaperaccess.com/full/2334797.jpg")',
+    'url("https://wallpaperaccess.com/full/811038.jpg")',
+    'url("https://wallpaperaccess.com/full/1217231.jpg")',
+    'url("https://wallpaperaccess.com/full/1217368.jpg")',
+    'url("https://wallpaperaccess.com/full/1217181.jpg")',
+    'url("https://wallpaperaccess.com/full/2334800.jpg")',
+    'url("https://wallpaperaccess.com/full/2334799.jpg")',
+    'url("https://wallpaperaccess.com/full/3314510.jpg")',
+    'url("https://preview.redd.it/ytkkbowirm061.jpg?width=640&crop=smart&auto=webp&s=e340d282d6866b4020185ab7e7db295ddecde16d")',
+    'url("https://preview.redd.it/7288ennxkpf61.png?width=640&crop=smart&auto=webp&s=bc1e38382b1b6ff09acec737c3443bcf5c8298b1")',
+    'url("https://images2.alphacoders.com/120/1209425.png")',
+    'url("https://preview.redd.it/m23bwh4n0x151.png?width=640&crop=smart&auto=webp&s=bb46c7e120ffea715127547e156abd54a3d11457")',
+    'url("https://images.wallpapersden.com/image/download/4k-beautiful-landscape-digital-art_bGhuZm6UmZqaraWkpJRobWllrWdma2U.jpg",)',
+    'url("https://i.pinimg.com/originals/ca/54/62/ca5462afe308041935434a7b654fa364.jpg")',
+    'url("https://c.wallhere.com/photos/f4/a5/Minecraft_shaders-1842045.jpg!d")',
+    'url("https://hdwallpaperim.com/wp-content/uploads/2017/08/23/460202-Minecraft-shaders.jpg")',
+    'url("https://wallpaperaccess.com/full/349967.jpg")',
+  ];
+
+  let cbTimeout;
+
+  let changeBg = function() {
+    document.querySelector("body").style.backgroundImage = bgImages[ randomRangeInt(0, bgImages.length - 1) ];
+    cbTimeout = setTimeout(changeBg, parseInt(document.querySelector("#inpDelay").value) * 1000);
+  }
+
+  class Color {
+    constructor(r, g, b) {
+      this.r = r;
+      this.g = g;
+      this.b = b;
+    }
+  }
+
+  class RadialGradient {
+    constructor(
+      postition1,
+      radius1,
+      postition2,
+      radius2,
+      colorPositions,
+      colors,
+      velocity
+    ) {
+      this.postition1 = postition1;
+      this.radius1 = radius1;
+      this.postition2 = postition2;
+      this.radius2 = radius2;
+      this.colorPositions = colorPositions;
+      this.colors = colors;
+      this.velocity = velocity;
+    }
+    create() {
+      let g = ctx.createRadialGradient(
+        this.postition1.x,
+        this.postition1.y,
+        this.radius1,
+        this.postition2.x,
+        this.postition2.y,
+        this.radius2
+      );
+      for (let i = 0; i < this.colors.length; i++) {
+        g.addColorStop(this.colorPositions[i], this.colors[i]);
+      }
+      return g;
+    }
+    update(timePassed = 1) {
+      this.create();
+      this.postition1.x += this.velocity.x * timePassed;
+      this.postition2.x += this.velocity.x * timePassed;
+      this.postition1.y += this.velocity.y * timePassed;
+      this.postition2.y += this.velocity.y * timePassed;
+    }
+  }
+
+  class Circle {
+    constructor(
+      postition,
+      radiusMax,
+      color,
+      isCircle,
+      lineWidth,
+      velocity,
+      radiusGrowthRate
+    ) {
+      this.postition = postition;
+      this.radiusMax = radiusMax;
+      this.color = color;
+      this.isCircle = isCircle;
+      this.lineWidth = lineWidth;
+      this.velocity = velocity;
+      this.radiusGrowthRate = radiusGrowthRate;
+
+      this.radius = 0;
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(
+        this.postition.x,
+        this.postition.y,
+        this.radius,
+        0,
+        Math.PI * 2,
+        true
+      );
+      if (this.isCircle) {
+        if (this.color instanceof RadialGradient)
+          ctx.fillStyle = this.color.create();
+        else ctx.fillStyle = this.color;
+        ctx.fill();
+      } else {
+        ctx.lineWidth = this.lineWidth;
+        if (this.color instanceof RadialGradient)
+          ctx.strokeStyle = this.color.create();
+        else ctx.strokeStyle = this.color;
+        ctx.stroke();
+      }
+    }
+    update(timePassed = 1) {
+      if (this.color instanceof RadialGradient) {
+        this.color.update(timePassed);
+        this.postition.x += this.color.velocity.x * timePassed;
+        this.postition.y += this.color.velocity.y * timePassed;
+      } else {
+        this.postition.x += this.velocity.x * timePassed;
+        this.postition.y += this.velocity.y * timePassed;
+      }
+      if (this.radius < this.radiusMax) {
+        this.radius += this.radiusGrowthRate;
+      }
+      this.draw();
+    }
+  }
+
+  let bokehs = [];
+
+  let bokehPXMin;
+  let bokehPXMax;
+
+  let bokehPYMin;
+  let bokehPYMax;
+
+  let bokehRMin = parseFloat(document.querySelector("#inpBokehRadiusMin").value);
+  let bokehRMax = parseFloat(document.querySelector("#inpBokehRadiusMax").value);
+
+  // let bokehLineW = document.querySelector("#").value;
+
+  let bokehVXMin = parseFloat(document.querySelector("#inpBokehVXMin").value);
+  let bokehVXMax = parseFloat(document.querySelector("#inpBokehVXMax").value);
+
+  let bokehVYMin = parseFloat(document.querySelector("#inpBokehVYMin").value);
+  let bokehVYMax = parseFloat(document.querySelector("#inpBokehVYMax").value);
+
+  let bokehRGrowthRateMin = parseFloat(document.querySelector("#inpBokehGrowthRateMin").value);
+  let bokehRGrowthRateMax = parseFloat(document.querySelector("#inpBokehGrowthRateMax").value);
+
+  let bokehAlphaMin = parseFloat(document.querySelector("#inpBokehOpacityMin").value);
+  let bokehAlphaMax = parseFloat(document.querySelector("#inpBokehOpacityMax").value);
+
+  let bokehSpawnRate = parseInt(document.querySelector("#inpBokehSpawnRate").value);
+
+  let maxBokehs = parseInt(document.querySelector("#inpMaxBokeh").value);
+
+  const lineWidths = 5;
+
+  const colors = {
+    r: {
+      min: 0,
+      max: 255
+    },
+    g: {
+      min: 0,
+      max: 255
+    },
+    b: {
+      min: 0,
+      max: 255
+    },
+    a: {
+      min: 0,
+      max: 0.5
+    }
+  };
+
+  let colorPallete1 = [
+    new Color(243, 180, 216),
+    new Color(185, 161, 195),
+    new Color(238, 240, 248),
+    new Color(239, 240, 246),
+    new Color(80, 174, 216),
+    new Color(168, 203, 205),
+    new Color(184, 160, 196),
+    new Color(247, 231, 224)
+  ];
+
+  //----Spawn Bokehs on the screen
+
+  let sbTimeout;
+
+  let spawnBoKeh = function() {
+    bokehPXMin = 0;
+    bokehPXMax = c.width;
+
+    bokehPYMin = 0;
+    bokehPYMax = c.height;
+
+    bokehRMin = parseFloat(document.querySelector("#inpBokehRadiusMin").value);
+    bokehRMax = parseFloat(document.querySelector("#inpBokehRadiusMax").value);
+
+    // bokehLineW = document.querySelector("#").value;
+
+    bokehVXMin = parseFloat(document.querySelector("#inpBokehVXMin").value);
+    bokehVXMax = parseFloat(document.querySelector("#inpBokehVXMax").value);
+
+    bokehVYMin = parseFloat(document.querySelector("#inpBokehVYMin").value);
+    bokehVYMax = parseFloat(document.querySelector("#inpBokehVYMax").value);
+
+    bokehRGrowthRateMin = parseFloat(document.querySelector("#inpBokehGrowthRateMin").value);
+    bokehRGrowthRateMax = parseFloat(document.querySelector("#inpBokehGrowthRateMax").value);
+
+    bokehAlphaMin = parseFloat(document.querySelector("#inpBokehOpacityMin").value);
+    bokehAlphaMax = parseFloat(document.querySelector("#inpBokehOpacityMax").value);
+
+    bokehSpawnRate = parseInt(document.querySelector("#inpBokehSpawnRate").value);
+
+    maxBokehs = parseInt(document.querySelector("#inpMaxBokeh").value);
+
+    //----Check if total bokeh on the screen is not reach full
+      
+    if (bokehs.length < maxBokehs) {
+      // let pX = randomRangeFloat(positions.x.min, positions.x.max);
+      // let pY = randomRangeFloat(positions.y.min, positions.y.max);
+      let pX = randomRangeFloat(bokehPXMin, bokehPXMax);
+      let pY = randomRangeFloat(bokehPYMin, bokehPYMax);
+
+      let r = Math.abs(randomRangeFloat(bokehRMin, bokehRMax));
+
+      let c = `rgba(${randomRangeInt(
+        colors.r.min,
+        colors.r.max
+      )}, ${randomRangeInt(
+        colors.g.min, 
+        colors.g.max
+      )}, ${randomRangeInt(
+        colors.b.min,
+        colors.b.max
+      )}, ${randomRangeFloat(
+        colors.a.min, 
+        colors.a.max
+      )})`;
+
+      let vX = randomRangeFloat(bokehVXMin, bokehVXMax);
+      let vY = randomRangeFloat(bokehVYMin, bokehVYMax);
+
+      let rgr = randomRangeFloat(bokehRGrowthRateMin, bokehRGrowthRateMin);
+
+      let c1 = colorPallete1[randomRangeInt(0, colorPallete1.length - 1)];
+
+      let rg = new RadialGradient(
+        {
+          x: pX,
+          y: pY
+        },
+        0.1,
+        {
+          x: pX,
+          y: pY
+        },
+        r,
+        [0, 1],
+        [
+          `rgba(${c1.r}, ${c1.g}, ${c1.b}, ${randomRangeFloat(0.1, 1)})`,
+          `rgba(${c1.r}, ${c1.g}, ${c1.b}, ${randomRangeFloat(0.1, 1)})`
+        ],
+        {
+          x: vX,
+          y: vY
+        }
+      );
+      
+      bokehs.push(
+        new Circle(
+          {
+            x: pX,
+            y: pY
+          },
+          r,
+          rg,
+          true,
+          lineWidths,
+          {
+            x: vX,
+            y: vY
+          },
+          rgr
+        )
+      );
+    }
+    sbTimeout = setTimeout(spawnBoKeh, bokehSpawnRate);
+  };
+
+  class Rain {
+    constructor (position, length, speedMultiplier, angle, color) {
+      this.position = position;
+      this.length = length;      
+      this.speedMultiplier = speedMultiplier;
+      this.angle = angle;
+      this.color = color;
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.strokeStyle = this.color;
+      ctx.moveTo(this.position.x, this.position.y);
+      ctx.lineTo(
+        this.position.x + Math.cos(this.angle) * this.length, 
+        this.position.y + Math.sin(this.angle) * this.length
+      );
+      ctx.stroke();
+    }
+    update(timePassed = 1) {
+      this.draw();
+      // this.angle += randomRangeFloat(-0.5, 0.5)
+      this.position.x += -Math.cos(this.angle) * this.speedMultiplier * timePassed;
+      this.position.y += -Math.sin(this.angle) * this.speedMultiplier * timePassed;
+    }
+  }
+
+  let rains = [];
+
+  let rainLengthMin = parseInt(document.querySelector("#inpLengthMin").value);
+  let rainLengthMax = parseInt(document.querySelector("#inpLengthMax").value);
+
+  let rainSpeedMin = parseInt(document.querySelector("#inpSpeedMin").value);
+  let rainSpeedMax = parseInt(document.querySelector("#inpSpeedMax").value);
+
+  let rainAngleMin = parseInt(document.querySelector("#inpAngleMin").value);
+  let rainAngleMax = parseInt(document.querySelector("#inpAngleMax").value);
+
+  let rainAlphaMin = parseFloat(document.querySelector("#inpOpacityMin").value);
+  let rainAlphaMax = parseFloat(document.querySelector("#inpOpacityMax").value);
+
+  let rainColor = document.querySelector("#inpColor").value;
+
+  let rainSpawnRate = parseInt(document.querySelector("#inpSpawnRate").value);
+
+  let rainXMin;
+  let rainXMax;
+
+  let rainYMin;
+  let rainYMax;
+
+  let srTimeout;
+
+  let spawnRain = function() {
+    rainXMin = 0;
+    rainXMax = c.width;
+
+    rainYMin = 0;
+    rainYMax = c.height;
+
+    rainLengthMin = parseInt(document.querySelector("#inpLengthMin").value);
+    rainLengthMax = parseInt(document.querySelector("#inpLengthMax").value);
+
+    rainSpeedMin = parseInt(document.querySelector("#inpSpeedMin").value);
+    rainSpeedMax = parseInt(document.querySelector("#inpSpeedMax").value);
+
+    rainAngleMin = parseInt(document.querySelector("#inpAngleMin").value);
+    rainAngleMax = parseInt(document.querySelector("#inpAngleMax").value);  
+
+    rainAlphaMin = parseFloat(document.querySelector("#inpOpacityMin").value);
+    rainAlphaMax = parseFloat(document.querySelector("#inpOpacityMax").value);
+
+    rainColor = document.querySelector("#inpColor").value;
+
+    rainSpawnRate = parseInt(document.querySelector("#inpSpawnRate").value);
+
+    //Reset rain X
+
+    rainXMax = c.width;
+
+    rains.push(
+      //Spawn rain top
+
+      new Rain(
+        {
+          x: randomRangeFloat(rainXMin, rainXMax),
+          y: 0,
+        },
+        randomRangeFloat(rainLengthMin, rainLengthMax),
+        randomRangeFloat(rainSpeedMin, rainSpeedMax),
+        randomRangeFloat(degrees_to_radians(rainAngleMin), degrees_to_radians(rainAngleMax)),
+        rainColor.replace(')', `, ${randomRangeFloat(rainAlphaMin, rainAlphaMax)})`)
+      ),
+
+      //Spawn rain left
+
+      // new Rain(
+      //   {
+      //     x: 0,
+      //     y: Math.random() * (rainYMax - rainYMin) + rainYMin,
+      //   },
+      //   Math.random() * (rainLengthMax - rainLengthMin) + rainLengthMin,
+      //   Math.random() * (rainSpeedMax - rainSpeedMin) + rainSpeedMin,
+      //   degrees_to_radians(rainAngle),
+      //   rainColor
+      // ),
+
+      //Spawn rain right
+
+      // new Rain(
+      //   {
+      //     x: c.width,
+      //     y: randomRangeFloat(0, innerHeight),
+      //   },
+      //   randomRangeFloat(rainLengthMin, rainLengthMax),
+      //   randomRangeFloat(rainSpeedMin, rainSpeedMax),
+      //   degrees_to_radians(rainAngle),
+      //   rainColor.replace(')', `, ${randomRangeFloat(rainAlphaMin, rainAlphaMax)})`)
+      // )
+    )
+    srTimeout = setTimeout(spawnRain, rainSpawnRate);
+  }
+
+  class Snow {
+    constructor(position, radius, color, velocity) {
+      this.position = position;
+      this.radius = radius;
+      this.color = color;
+      this.velocity = velocity;
+    }
+    draw() {
+      ctx.fillStyle = this.color;
+      ctx.beginPath();
+      ctx.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2, true);
+      ctx.fill();
+    }
+    update(timePassed = 1) {
+      this.draw();
+      this.position.x += this.velocity.x * timePassed;
+      this.position.y += this.velocity.y * timePassed;
+    }
+  }
+
+  let snows = [];
+
+  let snowRMin = parseFloat(document.querySelector("#inpSnowRadiusMin").value);
+  let snowRMax = parseFloat(document.querySelector("#inpSnowRadiusMax").value);
+
+  let snowVXMin = parseFloat(document.querySelector("#inpSnowVXMin").value);
+  let snowVXMax = parseFloat(document.querySelector("#inpSnowVXMax").value);
+
+  let snowVYMin = parseFloat(document.querySelector("#inpSnowVYMin").value);
+  let snowVYMax = parseFloat(document.querySelector("#inpSnowVYMax").value);
+
+  let snowAlphaMin = parseFloat(document.querySelector("#inpSnowOpacityMin").value);
+  let snowAlphaMax = parseFloat(document.querySelector("#inpSnowOpacityMax").value);
+
+  let snowColor = document.querySelector("#inpSnowColor").value;
+
+  let snowSpawnRate = parseFloat(document.querySelector("#inpSnowSpawnRate").value);
+
+  let snowPXMin;
+  let snowPXMax;
+
+  let snowPYMin;
+  let snowPYMax;
+
+  let snTimeout;
+
+  let spawnSnow = function() {
+    snowPXMin = 0;
+    snowPXMax = c.width;
+
+    snowPYMin = 0;
+    snowPYMax = c.height;
+
+    snowRMin = parseFloat(document.querySelector("#inpSnowRadiusMin").value);
+    snowRMax = parseFloat(document.querySelector("#inpSnowRadiusMax").value);
+
+    snowVXMin = parseFloat(document.querySelector("#inpSnowVXMin").value);
+    snowVXMax = parseFloat(document.querySelector("#inpSnowVXMax").value);
+
+    snowVYMin = parseFloat(document.querySelector("#inpSnowVYMin").value);
+    snowVYMax = parseFloat(document.querySelector("#inpSnowVYMax").value);
+
+    snowAlphaMin = parseFloat(document.querySelector("#inpSnowOpacityMin").value);
+    snowAlphaMax = parseFloat(document.querySelector("#inpSnowOpacityMax").value);
+
+    snowColor = document.querySelector("#inpSnowColor").value;
+
+    snowSpawnRate = parseFloat(document.querySelector("#inpSnowSpawnRate").value);
+
+    snows.push(
+      new Snow(
+        {
+          x: randomRangeFloat(snowPXMin, snowPXMax),
+          y: -snowRMax
+        },
+        randomRangeFloat(snowRMin, snowRMax),
+        snowColor.replace(')', `, ${randomRangeFloat(snowAlphaMin, snowAlphaMax)})`),
+        {
+          x: randomRangeFloat(snowVXMin, snowVXMax),
+          y: randomRangeFloat(snowVYMin, snowVYMax),
+        },
+      ),
+
+      // new Snow(
+      //   {
+      //     x: -snowRMax,
+      //     y: randomRangeFloat(snowPYMin, snowPYMax),
+      //   },
+      //   randomRangeFloat(snowRMin, snowRMax),
+      //   `rgba(255, 255, 255, ${randomRangeFloat(0.2, 0.8)})`,
+      //   {
+      //     x: randomRangeFloat(snowVXMin, snowVXMax),
+      //     y: randomRangeFloat(snowVYMin, snowVYMax),
+      //   },
+      // ),
+    );
+    snTimeout = setTimeout(spawnSnow, snowSpawnRate);
+  }
+
+  document.querySelector("#toggleBg").addEventListener("click", () => {
+    currentvalue = document.querySelector("#toggleBg").value;
+    if (currentvalue == "off"){
+      document.querySelector("#toggleBg").value="on";
+      changeBg();
+      document.querySelector("#backgroundSettings").style.display = "block";
+    } else {
+      document.querySelector("#toggleBg").value="off";
+      clearTimeout(cbTimeout);
+      document.querySelector("#backgroundSettings").style.display = "none";
+      document.querySelector("body").style.backgroundImage = "";
+    }
+  })
+
+  document.querySelector("#btnImportBackground").addEventListener("click", () => {
+    if (!bgImages.includes(document.querySelector("#inpBackground").value)) {
+      bgImages.push(`url("${document.querySelector("#inpBackground").value}")`);
+      document.querySelector("#inpBackground").value = "";
+    }
+  })
+
+  document.querySelector("#inpTime").addEventListener("change", () => {
+    console.log(`background-image ${document.querySelector("#inpTime").value}s;`);
+    document.querySelector("body").style.transition = `background-image ${document.querySelector("#inpTime").value}s;`;
+  })
+
+  document.querySelector("#inpAnimation").addEventListener("click", () => {
+    if (document.querySelector("#inpAnimation").value == "stop") {
+      document.querySelector("#inpAnimation").value = "start";
+      cancelAnimationFrame(rafid);
+    } else {
+      document.querySelector("#inpAnimation").value = "stop";
+      loop();
+    }
+  })
+
+  document.querySelectorAll("input[name=effect]")[0].addEventListener("change", () => {
+    if (document.querySelectorAll("input[name=effect]")[0].checked) {
+      spawnBoKeh();
+      document.querySelector("#bokehSetting").style.display = "block";
+    } else {
+      bokehs = [];
+      clearTimeout(sbTimeout);
+      document.querySelector("#bokehSetting").style.display = "none";
+    }
+  })
+
+  document.querySelectorAll("input[name=effect]")[1].addEventListener("change", () => {
+    if (document.querySelectorAll("input[name=effect]")[1].checked) {
+      spawnRain();
+      document.querySelector("#rainSetting").style.display = "block";
+    } else {
+      rains = [];
+      clearTimeout(srTimeout);
+      document.querySelector("#rainSetting").style.display = "none";
+    }
+  })
+
+  document.querySelectorAll("input[name=effect]")[2].addEventListener("change", () => {
+    if (document.querySelectorAll("input[name=effect]")[2].checked) {
+      spawnSnow();
+      document.querySelector("#snowSetting").style.display = "block";
+    } else {
+      snows = [];
+      clearTimeout(snTimeout);
+      document.querySelector("#snowSetting").style.display = "none";
+    }
+  })
+
+  document.querySelector("#clearBokehs").addEventListener("click", () => bokehs = []);
+  document.querySelector("#clearRains").addEventListener("click", () => rains = []);
+  document.querySelector("#clearSnows").addEventListener("click", () => snows = []);
+
+  document.querySelector("#btnUpdateSnowP").addEventListener("click", () => {
+    snows.forEach((snow, i) => {
+      snow.position.x += parseFloat(document.querySelector("#inpUpdateAllSnowPX").value);
+      snow.position.y += parseFloat(document.querySelector("#inpUpdateAllSnowPY").value);
+    })
+  })
+
+  let t = Date.now();
+  let rafid;
+
+  loop = () => {
+    rafid = requestAnimationFrame(loop);
+
+    c.width = innerWidth * 2;
+    c.height = innerHeight;
+
+    ctx.fillStyle = "rgba(0, 0, 0, 0.1)"
+    ctx.fillRect(0, 0, c.width, c.height);
+
+    let timePassed = (Date.now() - t) / 1000;
+    t = Date.now();
+
+    //Delete rains when out of screen
+
+    rains.forEach((rain, i) => {
+      rain.update(timePassed);
+
+      if (rain.position.x + Math.cos(rain.angle) * rain.length <= 0 ||
+          rain.position.x + Math.cos(rain.angle) * rain.length <= 0 >= c.width ||
+          rain.position.y + Math.sin(rain.angle) * rain.length >= c.height) {
+        rains.splice(i, 1);
+      }
+    });
+
+    snows.forEach((snow, i) => {
+      snow.update(timePassed);
+
+      if (snow.position.x >= c.width ||
+          snow.position.x <= 0 ||
+          snow.position.y + snow.radius >= c.height) {
+        snows.splice(i, 1);
+      }
+    })
+
+    bokehs.forEach((bokeh, i) => {
+      bokeh.update();
+      if (
+        bokeh.postition.x + bokeh.radius < -c.width ||
+        bokeh.postition.x - bokeh.radius > c.width * 2 ||
+        bokeh.postition.y + bokeh.radius < -c.height ||
+        bokeh.postition.y - bokeh.radius > c.height * 2
+      ) {
+        bokehs.splice(i, 1);
+      }
+    });
+    
+    document.querySelector("#fps").innerHTML = Math.round(1 / timePassed);
+  }
+
+  loop();
+</script>
